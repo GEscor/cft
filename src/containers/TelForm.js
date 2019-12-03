@@ -113,7 +113,7 @@ export default class TelForm extends Component {
     const data = e.target.dataset;
 
     this.setState({
-      selectedCountry: data.country,
+      selectedCountry: data.country[0] + data.country.slice(1).toLowerCase(),
       selectedCountryCode: data.code.toLowerCase(),
       selectedCountryPrefix: data.prefix,
       selectedCountryMin: data.min,
