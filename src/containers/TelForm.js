@@ -30,7 +30,6 @@ export default class TelForm extends Component {
       throw new Error(`Could not fetch, received ${res.status}`);
     }
     const body = await res.json();
-    console.log(body);
     return body;
   };
 
@@ -40,7 +39,6 @@ export default class TelForm extends Component {
     const filteredCountries = countries.filter(element => {
       return element.phoneInfo;
     });
-    console.log(filteredCountries);
     this.setState({ countries: filteredCountries, loading: false });
   };
 
@@ -56,6 +54,7 @@ export default class TelForm extends Component {
 
   handleCountriesListShow = () => {
     const { selectedCountry } = this.state;
+
     if (!selectedCountry) {
       this.setState({ showCountriesList: true });
     }
@@ -67,7 +66,7 @@ export default class TelForm extends Component {
   autoSelectPrefix = str => {
     const { countries, selectedCountryPrefix } = this.state;
     let prefix = `+${str.slice(0, 3)}`;
-    console.log(prefix);
+
     let filteredCountries = countries.filter(element => {
       return element.phoneInfo.prefix.includes(prefix);
     });
@@ -75,8 +74,6 @@ export default class TelForm extends Component {
     if (prefix !== selectedCountryPrefix && filteredCountries.length > 0) {
       this.setState({ showCountriesList: true, selectedCountry: "" });
     }
-
-    console.log(filteredCountries);
 
     if (filteredCountries.length > 0) {
       const code = filteredCountries[0].code;
@@ -113,8 +110,8 @@ export default class TelForm extends Component {
   // Обработчик выбора пользователем страны из списка
 
   handleCountryClick = e => {
-    console.log(e.target);
     const data = e.target.dataset;
+
     this.setState({
       selectedCountry: data.country,
       selectedCountryCode: data.code.toLowerCase(),
@@ -123,15 +120,29 @@ export default class TelForm extends Component {
       selectedCountryMax: data.max,
       showCountriesList: false
     });
+
     if (this.state.inputValue < data.prefix) {
       this.setState({ inputValue: data.prefix });
     }
+
+    this.substitute(data.prefix);
+  };
+
+  // Функция подставляет префикс выбранной страны в строку ввода
+
+  substitute = str => {
+    let tel = this.state.inputValue;
+    const length = str.length;
+    console.log(tel.slice(length));
+    const newInputValue = str + tel.slice(length);
+    this.setState({ inputValue: newInputValue });
   };
 
   // Обработчик отправки формы
 
   handleSubmit = e => {
     e.preventDefault();
+
     const {
       selectedCountry,
       selectedCountryMin,
@@ -140,7 +151,6 @@ export default class TelForm extends Component {
     } = this.state;
 
     const tel = this.state.inputValue.length;
-
     const min = +selectedCountryMin + selectedCountryPrefix.length;
     const max = +selectedCountryMax + selectedCountryPrefix.length;
 
@@ -162,6 +172,8 @@ export default class TelForm extends Component {
     }
     return;
   };
+
+  // Обработчик кликов на кнопки да/нет в диалоге отправки формы
 
   onBtnClick = bool => {
     this.setState({ showPopUp: false });
@@ -287,41 +299,9 @@ export default class TelForm extends Component {
 }
 
 const mapStateToProps = store => {
-  console.log(store); // посмотрим, что же у нас в store?
   return {
     form: store.form
   };
 };
-// в наш компонент App, с помощью connect(mapStateToProps)
+
 connect(mapStateToProps)(TelForm);
-/*
-const TelForm = ({ dispatch }) => {
-  let input;
-
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        if (!input.value.trim()) {
-          return;
-        }
-        dispatch(sendForm(input.value));
-        input.value = "";
-      }}
-    >
-      <input
-        type="tel"
-        ref={node => (input = node)}
-        placeholder="Введите номер телефона"
-      />
-      <button type="submit">Далее</button>
-    </form>
-  );
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(mapDispatchToProps)(TelForm);
-*/
