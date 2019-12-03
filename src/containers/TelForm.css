@@ -1,0 +1,80 @@
+form {
+  display: block;
+  position: relative;
+  border: 2px solid skyblue;
+  border-radius: 10px;
+  width: 600px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+input,
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 10px;
+  outline: none;
+}
+
+input {
+  width: 500px;
+  border: 2px solid skyblue;
+  padding-left: 50px;
+}
+
+span {
+  display: block;
+  height: 20px;
+  text-align: center;
+  color: red;
+}
+
+ul {
+  position: absolute;
+  margin: 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 2px solid skyblue;
+  border-radius: 10px;
+  width: 535px;
+  max-height: 150px;
+  overflow-y: scroll;
+  list-style: none;
+  top: 134px;
+  left: 30px;
+}
+li:first-child {
+  font-style: italic;
+}
+
+li:hover {
+  cursor: pointer;
+  background-color: skyblue;
+}
+button {
+  width: 257px;
+  color: white;
+  background-color: skyblue;
+}
+
+.country {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.flagIcon {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 108px;
+  left: 50px;
+}
+
+.popUp {
+  width: 600px;
+  text-align: center;
+  margin: 10px auto;
+  padding: 0;
+}

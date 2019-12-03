@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Описание задачи:
 
-## Available Scripts
+«Отправка сообщения на телефон»
 
-In the project directory, you can run:
+На странице форма с двумя элемента управления:
+• Инпут для ввода телефона, состоящий из двух сгруппированных частей:
+o Выпадающий список с выбором страны
+o Текстовое поле для ввода телефона
+• Кнопка «Далее»
 
-### `npm start`
+Используя метод API https://koronapay.com/online/api/countries получить список стран и использовать следующие поля:
+Id Id страны
+phonePrefix Префикс номера телефона (например +7 для России)
+phoneMinLength Минимальная длинна номера после префикса
+phoneMaxLength Максимальная длинна номера после префикса
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+• В инпуте отображается введенный номер телефона и страна которой он соответствует
+o Страну можно отображать в виде флага или в виде надписи с названием или кодом страны. Пример реализации с флагом:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+o Пример можно посмотреть на https://koronapay.com/transfers/online/ заполнив данные на первой странице и нажав «Далее»
+• В инпуте должна быть возможность выбрать страну. При выборе страны префикс номера введенного телефона автоматический меняется на нужный.
+• Если пользователь вводит номер телефона с префиксом отличным от префикса выбранной страны – выбранная страна меняется на соответствующую префиксу.
+o Если префиксу соответствуют несколько стран – выбирается первая страна в списке пришедшем из API
+o Если префиксу не соответствует ни одна страна - выбирается синтетическая страна «Неизвестно»
+• Инпут должен позволять вводить только цифры
+• Инпут не должен позволять вводить больше цифр, чем возможно для выбранной страны (для «неизвестной страны» не больше 12)
+При нажатии кнопки «Далее»:
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+1. Валидация значения инпута, не должна быть выбрана «неизвестная страна» и телефон должен соответствовать параметрам phoneMinLength и phoneMaxLength. Если валидация не пройдена – показываем надпись «Некорректный формат» под инпутом для телефона и не продолжаем. При любом пользовательском вводе в инпут – убираем сообщение валидации.
+2. Если валидация пройдена показываем диалог «Вы уверены, что хотите отправить сообщение?» с вариантами «Да/Нет»
+3. Если пользователь выбирает варианта «Да» то в течении 5 секунд показываем внизу страницы плашку с надписью «Сообщение было успешно отправлено»
+   Нефункциональные требования
+   К верстке требований кроме аккуратности нет. Можно использовать любой фреймворк для верстки.
+   Стек react + redux. Язык выполнения JS (не TS).
+   Для сборки приложения используется webpack версии не ниже 2.0.0. Использование babel приветствуется.
+   Результатом выполнения задания должен быть архив со всеми необходимыми файлами приложения либо ссылка на гитхаб. Выполнение npm start должно запустить приложение с соответствующей страницей на 3000 порту. Наличие скриптов для запуска не только в dev, но и в production режиме так же будет плюсом.
+   Важно
+   Для доступа к api понадобится CORS плагин для браузера
